@@ -7,7 +7,14 @@ const Navbar = () => {
     const [isHovered, setIsHovered] = useState<string | null>(null);
     const { scrollY } = useScroll();
 
-    // All transformations at component level
+    // Added text color transformation
+    const textColor = useTransform(
+        scrollY,
+        [0, 100],
+        ["rgba(255, 255, 255, 1)", "rgba(31, 41, 55, 1)"] // From white to gray-800
+    );
+
+    // Existing transformations...
     const navHeight = useTransform(scrollY, [0, 100], ["6rem", "4rem"]);
     const navPadding = useTransform(scrollY, [0, 100], ["1.5rem", "0.75rem"]);
     const logoScale = useTransform(scrollY, [0, 100], [1, 0.8]);
@@ -19,7 +26,7 @@ const Navbar = () => {
     );
     const navBorderRadius = useTransform(scrollY, [0, 100], ["0px", "1rem"]);
     const navMargin = useTransform(scrollY, [0, 100], ["0", "1rem"]);
-    const fontSize = useTransform(scrollY, [0, 100], ["1.125rem", "1rem"]); // Moved here
+    const fontSize = useTransform(scrollY, [0, 100], ["1.125rem", "1rem"]);
 
     const navItems = [
         { name: 'About', href: '/about' },
@@ -70,7 +77,6 @@ const Navbar = () => {
                     </Link>
                 </motion.div>
 
-
                 <motion.div 
                     className="flex items-center"
                     style={{ gap: navSpacing }}
@@ -88,8 +94,8 @@ const Navbar = () => {
                                 transition={{ type: "spring", stiffness: 400 }}
                             >
                                 <motion.span 
-                                    className="text-gray-800 font-medium text-lg transition-colors duration-300 relative"
-                                    style={{ fontSize }} // Use precomputed value
+                                    className="font-medium text-lg transition-colors duration-300 relative" // Removed text-gray-800
+                                    style={{ fontSize, color: textColor }} // Added color transform
                                 >
                                     {item.name}
                                     {isHovered === item.name && (
