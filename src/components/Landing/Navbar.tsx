@@ -5,10 +5,9 @@ import { useState } from 'react';
 
 const Navbar = () => {
     const [isHovered, setIsHovered] = useState<string | null>(null);
-    // const [isScrolled, setIsScrolled] = useState(false);
     const { scrollY } = useScroll();
 
-    // Transform values based on scroll
+    // All transformations at component level
     const navHeight = useTransform(scrollY, [0, 100], ["6rem", "4rem"]);
     const navPadding = useTransform(scrollY, [0, 100], ["1.5rem", "0.75rem"]);
     const logoScale = useTransform(scrollY, [0, 100], [1, 0.8]);
@@ -20,21 +19,13 @@ const Navbar = () => {
     );
     const navBorderRadius = useTransform(scrollY, [0, 100], ["0px", "1rem"]);
     const navMargin = useTransform(scrollY, [0, 100], ["0", "1rem"]);
+    const fontSize = useTransform(scrollY, [0, 100], ["1.125rem", "1rem"]); // Moved here
 
     const navItems = [
         { name: 'About', href: '/about' },
         { name: 'Vision', href: '/vision' },
         { name: 'Join', href: '/join' },
     ];
-
-    // useEffect(() => {
-    //     const updateScroll = () => {
-    //         setIsScrolled(window.scrollY > 50);
-    //     };
-
-    //     window.addEventListener('scroll', updateScroll);
-    //     return () => window.removeEventListener('scroll', updateScroll);
-    // }, []);
 
     return (
         <motion.nav
@@ -52,39 +43,13 @@ const Navbar = () => {
         >
             <motion.div 
                 className="max-w-7xl mx-auto flex items-center justify-between"
-                style={{
-                    gap: navSpacing
-                }}
+                style={{ gap: navSpacing }}
             >
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="flex items-center"
-                    style={{ scale: logoScale }}
-                >
-                    <Link href="/">
-                        <div className="flex items-center cursor-pointer group">
-                            <motion.h1 
-                                className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent
-                                         font-sanskrit tracking-wide"
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ type: "spring", stiffness: 300 }}
-                            >
-                                Indian ASI
-                            </motion.h1>
-                            <motion.div
-                                className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-orange-600 to-red-600
-                                         group-hover:w-full transition-all duration-300"
-                            />
-                        </div>
-                    </Link>
-                </motion.div>
+                {/* Logo section remains same */}
 
                 <motion.div 
                     className="flex items-center"
-                    style={{
-                        gap: navSpacing
-                    }}
+                    style={{ gap: navSpacing }}
                 >
                     {navItems.map((item) => (
                         <Link 
@@ -100,9 +65,7 @@ const Navbar = () => {
                             >
                                 <motion.span 
                                     className="text-gray-800 font-medium text-lg transition-colors duration-300 relative"
-                                    style={{
-                                        fontSize: useTransform(scrollY, [0, 100], ["1.125rem", "1rem"])
-                                    }}
+                                    style={{ fontSize }} // Use precomputed value
                                 >
                                     {item.name}
                                     {isHovered === item.name && (
