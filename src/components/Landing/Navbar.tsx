@@ -46,6 +46,30 @@ const Navbar = () => {
                 style={{ gap: navSpacing }}
             >
                 {/* Logo section remains same */}
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center"
+                    style={{ scale: logoScale }}
+                >
+                    <Link href="/">
+                        <div className="flex items-center cursor-pointer group">
+                            <motion.h1 
+                                className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent
+                                         font-sanskrit tracking-wide"
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ type: "spring", stiffness: 300 }}
+                            >
+                                Indian ASI
+                            </motion.h1>
+                            <motion.div
+                                className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-orange-600 to-red-600
+                                         group-hover:w-full transition-all duration-300"
+                            />
+                        </div>
+                    </Link>
+                </motion.div>
+
 
                 <motion.div 
                     className="flex items-center"
