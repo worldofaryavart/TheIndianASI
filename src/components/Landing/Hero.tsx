@@ -1,65 +1,138 @@
 'use client';
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 
 // Dynamically import the AshokChakra component with no SSR
 const AshokChakra = dynamic(() => import('./AshokChakra'), { ssr: false });
 
+interface Node {
+    id: number;
+    x: number;
+    y: number;
+    connections: number[];
+}
+
 const Hero = () => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [nodes, setNodes] = useState<Node[]>([]);
 
     useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            setMousePosition({
-                x: (e.clientX - window.innerWidth / 2) / 50,
-                y: (e.clientY - window.innerHeight / 2) / 50,
-            });
-        };
+        // Create neural network nodes
+        const networkNodes: Node[] = [];
+        const numNodes = 30; // Number of nodes in the network
 
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
+        for (let i = 0; i < numNodes; i++) {
+            networkNodes.push({
+                id: i,
+                x: Math.random() * 100, // Position as percentage
+                y: Math.random() * 100,
+                connections: []
+            });
+        }
+
+        // Create connections between nodes
+        networkNodes.forEach(node => {
+            const numConnections = 2 + Math.floor(Math.random() * 3); // 2-4 connections per node
+            const possibleConnections = networkNodes
+                .filter(n => n.id !== node.id)
+                .sort(() => Math.random() - 0.5)
+                .slice(0, numConnections);
+
+            node.connections = possibleConnections.map(n => n.id);
+        });
+
+        setNodes(networkNodes);
     }, []);
 
+    const handleMouseMove = (e: React.MouseEvent) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        setMousePosition({ x, y });
+    };
+
     return (
-        <section className="relative min-h-screen overflow-hidden">
+        <section className="relative min-h-screen overflow-hidden" onMouseMove={handleMouseMove}>
+            {/* Neural Network Background */}
+            <div className="absolute inset-0 z-1 overflow-hidden bg-gray-900">
+                <div className="relative w-full h-full">
+                    <svg className="w-full h-full">
+                        {/* Connections */}
+                        {nodes.map(node => 
+                            node.connections.map(connectionId => {
+                                const connectedNode = nodes.find(n => n.id === connectionId);
+                                if (!connectedNode) return null;
+                                
+                                const distance = Math.sqrt(
+                                    Math.pow(node.x - mousePosition.x, 2) + 
+                                    Math.pow(node.y - mousePosition.y, 2)
+                                );
+                                
+                                const isActive = distance < 20;
+                                
+                                return (
+                                    <motion.line
+                                        key={`${node.id}-${connectionId}`}
+                                        x1={`${node.x}%`}
+                                        y1={`${node.y}%`}
+                                        x2={`${connectedNode.x}%`}
+                                        y2={`${connectedNode.y}%`}
+                                        stroke={isActive ? "#60A5FA" : "#4B5563"}
+                                        strokeWidth={isActive ? "2" : "1"}
+                                        strokeOpacity={isActive ? "0.6" : "0.2"}
+                                        initial={{ pathLength: 0 }}
+                                        animate={{ pathLength: 1 }}
+                                        transition={{
+                                            duration: 2,
+                                            ease: "easeInOut",
+                                            repeat: Infinity,
+                                            repeatType: "reverse"
+                                        }}
+                                    />
+                                );
+                            })
+                        )}
+                        {/* Nodes */}
+                        {nodes.map(node => {
+                            const distance = Math.sqrt(
+                                Math.pow(node.x - mousePosition.x, 2) + 
+                                Math.pow(node.y - mousePosition.y, 2)
+                            );
+                            
+                            const isActive = distance < 20;
+                            
+                            return (
+                                <motion.circle
+                                    key={node.id}
+                                    cx={`${node.x}%`}
+                                    cy={`${node.y}%`}
+                                    r={isActive ? "4" : "3"}
+                                    fill={isActive ? "#60A5FA" : "#4B5563"}
+                                    initial={{ scale: 0 }}
+                                    animate={{ 
+                                        scale: isActive ? 1.5 : 1,
+                                        fill: isActive ? "#60A5FA" : "#4B5563"
+                                    }}
+                                    transition={{ duration: 0.3 }}
+                                />
+                            );
+                        })}
+                    </svg>
+                </div>
+            </div>
 
-            {/* <div className="absolute inset-0 z-1 overflow-hidden ">
-                <motion.div
-                    className="absolute inset-0"
-                    style={{
-                        background: `linear-gradient(
-                45deg,
-                rgba(250, 238, 222, 1) 0%,  // Peach
-                rgba(255, 153, 51, 0.6) 50%,  // Saffron
-                rgba(18, 136, 18, 0.8) 100%  // India Green
-            )`,
-                    }}
-                    animate={{
-                        background: [
-                            `linear-gradient(45deg, rgba(250, 238, 222, 1) 0%, rgba(255, 153, 51, 0.6) 50%, rgba(18, 136, 18, 0.8) 100%)`,
-                            `linear-gradient(135deg, rgba(250, 238, 222, 1) 0%, rgba(255, 153, 51, 0.6) 50%, rgba(18, 136, 18, 0.8) 100%)`
-                        ],
-                    }}
-                    transition={{
-                        repeat: Infinity,
-                        repeatType: "mirror",
-                        duration: 15,
-                        ease: "easeInOut",
-                    }}
-                />
-            </div> */}
-
+            {/* Particles Effect */}
             <motion.div
                 className="absolute inset-0"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.3 }}
                 transition={{ duration: 1 }}
             >
-                {[...Array(50)].map((_, i) => (
+                {[...Array(30)].map((_, i) => (
                     <motion.div
                         key={i}
-                        className="absolute w-1 h-1 bg-white rounded-full"
+                        className="absolute w-1 h-1 bg-blue-400 rounded-full"
                         style={{
                             left: `${Math.random() * 100}%`,
                             top: `${Math.random() * 100}%`,
