@@ -28,6 +28,9 @@ const Navbar = () => {
     const navMargin = useTransform(scrollY, [0, 100], ["0", "1rem"]);
     const fontSize = useTransform(scrollY, [0, 100], ["1.125rem", "1rem"]);
 
+    // Added top margin transformation
+    const navTopMargin = useTransform(scrollY, [0, 100], ["0", "1rem"]);
+
     const navItems = [
         { name: 'About', href: '/about' },
         { name: 'Vision', href: '/vision' },
@@ -45,6 +48,7 @@ const Navbar = () => {
                 background: navBackground,
                 marginLeft: navMargin,
                 marginRight: navMargin,
+                marginTop: navTopMargin, // Added top margin
                 borderRadius: navBorderRadius,
             }}
         >
