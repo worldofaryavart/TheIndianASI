@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 
 const Navbar = () => {
     const [isHovered, setIsHovered] = useState<string | null>(null);
-    const [isScrolled, setIsScrolled] = useState(false);
+    // const [isScrolled, setIsScrolled] = useState(false);
     const { scrollY } = useScroll();
 
     // Transform values based on scroll
@@ -27,14 +27,14 @@ const Navbar = () => {
         { name: 'Join', href: '/join' },
     ];
 
-    useEffect(() => {
-        const updateScroll = () => {
-            setIsScrolled(window.scrollY > 50);
-        };
+    // useEffect(() => {
+    //     const updateScroll = () => {
+    //         setIsScrolled(window.scrollY > 50);
+    //     };
 
-        window.addEventListener('scroll', updateScroll);
-        return () => window.removeEventListener('scroll', updateScroll);
-    }, []);
+    //     window.addEventListener('scroll', updateScroll);
+    //     return () => window.removeEventListener('scroll', updateScroll);
+    // }, []);
 
     return (
         <motion.nav

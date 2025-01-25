@@ -28,10 +28,10 @@ const NeuralNetwork: React.FC<NeuralNetworkProps> = ({ className }) => {
     const smoothMouseX = useSpring(mouseX, { damping: 50, stiffness: 400 });
     const smoothMouseY = useSpring(mouseY, { damping: 50, stiffness: 400 });
 
-    const glowIntensity = useTransform<number, number>(
-        [smoothMouseX, smoothMouseY],
-        ([latestX, latestY]) => Math.abs((latestX as number) + (latestY as number)) / 200
-    );
+    // const glowIntensity = useTransform<number, number>(
+    //     [smoothMouseX, smoothMouseY],
+    //     ([latestX, latestY]) => Math.abs((latestX as number) + (latestY as number)) / 200
+    // );
 
     const initializeNodes = useCallback(() => {
         const networkNodes: Node[] = [];

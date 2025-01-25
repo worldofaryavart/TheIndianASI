@@ -1,11 +1,7 @@
 'use client';
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import dynamic from 'next/dynamic';
 import NeuralNetwork from './NeuralNetwork';
 
-// Dynamically import the AshokChakra component with no SSR
-const AshokChakra = dynamic(() => import('./AshokChakra'), { ssr: false });
 
 const Hero = () => {
     return (
@@ -116,7 +112,7 @@ const Hero = () => {
                                     ease: "easeOut"
                                 }}
                             >
-                                Together, we're shaping the future of AI in India.
+                                Together, we&apos;re shaping the future of AI in India.
                             </motion.span>
                         </motion.p>
                         <motion.div
