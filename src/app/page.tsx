@@ -8,11 +8,15 @@ import Image from "next/image";
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <Navbar/>
-      <Hero/>
+      <Navbar />
+      {/* Add a long content section to test scroll */}
+      <div className="h-[200vh] bg-gradient-to-b from-gray-900 to-gray-800">
+      <Hero />
       <Stats/>
       <Feature/>
       <CTA/>
+        {/* Content will go here */}
+      </div>
     </main>
   );
 }
