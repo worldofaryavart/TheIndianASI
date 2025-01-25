@@ -90,33 +90,66 @@ const Hero = () => {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                     >
                         <motion.h1
-                            className="text-5xl md:text-7xl font-bold mb-6 font-sanskrit tracking-wide relative"
+                            className="text-5xl md:text-7xl font-extrabold mb-8 tracking-tight relative overflow-hidden backdrop-blur-sm bg-white/10 rounded-lg p-6 shadow-lg"
                             initial={{ opacity: 0, y: -50 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, ease: "easeOut" }}
+                            transition={{ duration: 1, ease: "easeOut" }}
                         >
-                            <span className="inline-block bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-gradient-x">
-                                India's Largest
-                            </span>
-                            <br />
-                            <span className="inline-block bg-gradient-to-r from-yellow-400 via-orange-500 to-red-600 bg-clip-text text-transparent animate-gradient-x">
-                                AI Community
-                            </span>
                             <motion.span
-                                className="absolute -z-10 inset-0 bg-gradient-to-r from-orange-400/20 to-red-500/20 blur-xl"
-                                animate={{
-                                    scale: [1, 1.1, 1],
-                                    opacity: [0.5, 0.8, 0.5],
-                                }}
-                                transition={{
-                                    duration: 3,
-                                    repeat: Infinity,
-                                    ease: "easeInOut",
-                                }}
-                            />
+                                className="block mb-2 relative"
+                                initial={{ x: -100, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                transition={{ delay: 0.2, duration: 0.8 }}
+                            >
+                                <div className="relative z-10 flex">
+                                    {"INDIA'S".split('').map((letter, index) => (
+                                        <span
+                                            key={index}
+                                            className={`inline-block ${
+                                                'INDIA'.includes(letter) 
+                                                    ? 'bg-clip-text text-transparent bg-[url("/images/hero.webp")] bg-cover bg-center'
+                                                    : 'bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-700 bg-clip-text text-transparent'
+                                            }`}
+                                            style={{
+                                                fontSize: '4.5rem',
+                                                lineHeight: '1',
+                                                fontWeight: '800',
+                                                backgroundPosition: `${-50 * index}px center`
+                                            }}
+                                        >
+                                            {letter}
+                                        </span>
+                                    ))}
+                                    <span className="bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-700 bg-clip-text text-transparent text-7xl font-extrabold">
+                                        {" LARGEST"}
+                                    </span>
+                                </div>
+                                <motion.span
+                                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                                    style={{ clipPath: 'inset(0)' }}
+                                    animate={{ x: ['100%', '-100%'] }}
+                                    transition={{ repeat: Infinity, duration: 1.5, ease: 'linear' }}
+                                />
+                            </motion.span>
+                            <motion.span
+                                className="block relative"
+                                initial={{ x: 100, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                transition={{ delay: 0.4, duration: 0.8 }}
+                            >
+                                <span className="bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-700 bg-clip-text text-transparent relative z-10">
+                                    AI Community
+                                </span>
+                                <motion.span
+                                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                                    style={{ clipPath: 'inset(0)' }}
+                                    animate={{ x: ['100%', '-100%'] }}
+                                    transition={{ repeat: Infinity, duration: 1.5, ease: 'linear', delay: 0.75 }}
+                                />
+                            </motion.span>
                         </motion.h1>
                         <motion.p
-                            className="text-xl md:text-2xl mb-8 text-gray-200"
+                            className="text-xl md:text-2xl mb-8 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.3 }}
