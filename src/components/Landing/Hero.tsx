@@ -2,16 +2,30 @@
 import { motion } from 'framer-motion';
 import NeuralNetwork from './NeuralNetwork';
 
-
 const Hero = () => {
     return (
         <section className="relative min-h-screen overflow-hidden">
-            {/* Neural Network Background */}
             <NeuralNetwork className="z-1" />
 
-            {/* Content */}
             <div className="relative z-10 container mx-auto px-6 py-32 flex items-center justify-center min-h-screen">
                 <div className="flex flex-col items-center justify-center text-center max-w-5xl mx-auto">
+                    <motion.div
+                        className="relative mb-8 p-3 rounded-lg border-2 border-transparent bg-opacity-20 backdrop-blur-sm"
+                        style={{
+                            background: 'linear-gradient(45deg, rgba(255, 0, 0, 0.1), rgba(0, 255, 0, 0.1), rgba(0, 0, 255, 0.1))',
+                            borderImage: 'linear-gradient(45deg, rgba(255, 0, 0, 0.5), rgba(0, 255, 0, 0.5), rgba(0, 0, 255, 0.5)) 1',
+                            borderRadius: '12px',
+                            borderImageSlice: 1,
+                        }}
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.5 }}
+                    >
+                        <span className="text-white text-sm font-medium">
+                            Join the revolution to make
+                        </span>
+                    </motion.div>
+
                     <motion.div
                         className="w-full"
                         initial={{ opacity: 0, y: 20 }}
