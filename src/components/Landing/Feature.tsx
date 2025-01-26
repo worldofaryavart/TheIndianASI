@@ -7,13 +7,13 @@ const Feature = () => {
             <div className="absolute inset-0 opacity-10 [background-image:linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
             
             {/* Animated gradient elements */}
-            <div className="absolute top-0 left-10 w-32 h-32 bg-indigo-100 rounded-full opacity-20 blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-0 right-10 w-40 h-40 bg-indigo-200 rounded-full opacity-20 blur-3xl animate-pulse delay-1000"></div>
+            <div className="absolute top-0 left-10 w-32 h-32 bg-teal-100 rounded-full opacity-20 blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-0 right-10 w-40 h-40 bg-teal-200 rounded-full opacity-20 blur-3xl animate-pulse delay-1000"></div>
 
             <NeuralNetwork/>
             
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
-                <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-indigo-100 to-purple-200 animate-slide-up">
+                <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-teal-100 to-purple-200 animate-slide-up">
                     Why Join Our Community?
                 </h2>
 
@@ -44,9 +44,9 @@ const Feature = () => {
                             data-aos="fade-up"
                             data-aos-delay={index * 100}
                         >
-                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 opacity-0 group-hover:opacity-40 transition-opacity duration-300"></div>
+                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-teal-500 to-purple-500 opacity-0 group-hover:opacity-40 transition-opacity duration-300"></div>
                             <div className="relative">
-                                <div className="bg-gradient-to-br from-indigo-500 to-purple-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg group-hover:rotate-[15deg] transition-transform duration-300">
+                                <div className="bg-gradient-to-br from-teal-500 to-purple-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg group-hover:rotate-[15deg] transition-transform duration-300">
                                     <svg 
                                         className="w-10 h-10 text-white"
                                         fill="none" 

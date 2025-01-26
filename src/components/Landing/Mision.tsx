@@ -4,7 +4,7 @@ import { FiGlobe, FiUsers, FiZap } from "react-icons/fi";
 
 const Mission = () => {
   return (
-    <section className="relative bg-gradient-to-br from-slate-200 to-indigo-100 py-24 px-6 md:px-16 overflow-hidden">
+    <section className="relative bg-gradient-to-br from-slate-200 to-teal-100 py-24 px-6 md:px-16 overflow-hidden">
       {/* Abstract background elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0 bg-[url('/images/ai-pattern.svg')] bg-cover bg-center" />
@@ -14,15 +14,15 @@ const Mission = () => {
         {/* Left Column */}
         <div className="relative space-y-8 z-10">
           <div className="relative pb-8">
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">
               Shaping the Future of AI in India
             </h2>
-            <div className="absolute bottom-6 left-0 h-1 w-32 bg-gradient-to-r from-blue-400 to-indigo-600 rounded-full animate-pulse" />
+            <div className="absolute bottom-6 left-0 h-1 w-32 bg-gradient-to-r from-blue-400 to-teal-600 rounded-full animate-pulse" />
           </div>
 
           <div className="space-y-6">
             <div className="flex items-start gap-4">
-              <FiZap className="w-8 h-8 text-indigo-600 flex-shrink-0 mt-1 animate-pulse" />
+              <FiZap className="w-8 h-8 text-teal-600 flex-shrink-0 mt-1 animate-pulse" />
               <p className="text-lg text-slate-700">
                 Our mission is to unite India&apos;s brightest AI minds and
                 foster a thriving community that will lead the AI revolution.
@@ -30,7 +30,7 @@ const Mission = () => {
             </div>
 
             <div className="flex items-start gap-4">
-              <FiUsers className="w-8 h-8 text-indigo-600 flex-shrink-0 mt-1" />
+              <FiUsers className="w-8 h-8 text-teal-600 flex-shrink-0 mt-1" />
               <p className="text-lg text-slate-700">
                 Empower innovation and accelerate research through our
                 nationwide AI network. We aim to build a robust infrastructure
@@ -39,7 +39,7 @@ const Mission = () => {
             </div>
 
             <div className="flex items-start gap-4">
-              <FiGlobe className="w-8 h-8 text-indigo-600 flex-shrink-0 mt-1" />
+              <FiGlobe className="w-8 h-8 text-teal-600 flex-shrink-0 mt-1" />
               <p className="text-lg text-slate-700">
                 Position India as the global AI hub through ethical frameworks
                 and sustainable solutions that inspire worldwide adoption.
@@ -65,12 +65,12 @@ const Mission = () => {
           </div>
 
           {/* Floating Callout */}
-          <div className="absolute -right-8 top-1/2 transform -translate-y-1/2 bg-white p-6 rounded-2xl shadow-xl w-64 border border-indigo-50">
-            <div className="text-indigo-600 font-bold text-lg mb-2">
+          <div className="absolute -right-8 top-1/2 transform -translate-y-1/2 bg-white p-6 rounded-2xl shadow-xl w-64 border border-teal-50">
+            <div className="text-teal-600 font-bold text-lg mb-2">
               &apos;Together, we can make India the global AI hub of
               tomorrow&apos;
             </div>
-            <div className="h-1 bg-gradient-to-r from-indigo-400 to-blue-400 mb-3 rounded-full" />
+            <div className="h-1 bg-gradient-to-r from-teal-400 to-blue-400 mb-3 rounded-full" />
             <div className="flex items-center text-blue-600">
               <FiZap className="mr-2 animate-bounce" />
               <span className="font-medium">AI Revolution</span>

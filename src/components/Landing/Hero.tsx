@@ -158,15 +158,20 @@ const Hero = () => {
                                     transition: { duration: 0.1 }
                                 }}
                             >
-                                <div className="absolute inset-0 w-full h-full transition-all duration-300 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 group-hover:scale-110 group-hover:rotate-2"></div>
-                                <span className="relative text-white text-lg font-semibold tracking-wide">
+                                <div className="absolute inset-0 w-full h-full transition-all duration-300 bg-gradient-to-r from-teal-700 via-teal-500 to-teal-700 group-hover:scale-110 group-hover:rotate-2"></div>
+                                <span className="relative text-white text-lg font-semibold tracking-wide group-hover:opacity-0 transition-opacity duration-300">
                                     Join the Community
                                 </span>
+                                <img
+                                    src="/images/logo.png"
+                                    alt="Logo"
+                                    className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 object-contain p-4"
+                                />
                                 <div className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-purple-700 via-indigo-700 to-purple-700 blur-sm"></div>
+                                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-teal-700 via-teal-500 to-teal-700 blur-sm"></div>
                                 </div>
                                 <div className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-purple-500 via-indigo-500 to-purple-500 blur-md"></div>
+                                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-teal-600 via-teal-400 to-teal-600 blur-md"></div>
                                 </div>
                             </motion.button>
                         </motion.div>

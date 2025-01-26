@@ -14,7 +14,7 @@ export default function Home() {
         <Mision />
         <Feature />
         <CTA />
-      <Footer />
+        <Footer />
       </div>
     </main>
   );
