@@ -23,7 +23,7 @@ const Hero = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 1, ease: "easeOut" }}
                         >
-                            <div className="relative z-10 flex flex-col items-center gap-4">
+                            <div className="relative z-10 flex flex-col items-center gap-4 mb-3">
                                 <div className="flex flex-wrap justify-center">
                                     {("INDIA'S LARGEST").split('').map((letter, index) => (
                                         <motion.span
@@ -85,31 +85,41 @@ const Hero = () => {
                             className="text-xl md:text-2xl mb-8 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-clip-text text-transparent font-medium"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ 
+                            transition={{
                                 delay: 1.2,
                                 duration: 0.8,
                                 ease: "easeOut"
                             }}
                         >
                             <motion.span
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ 
+                                className="inline-block"
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{
                                     delay: 1.5,
                                     duration: 0.5,
                                     ease: "easeOut"
+                                }}
+                                whileHover={{
+                                    scale: 1.05,
+                                    transition: { duration: 0.2 }
                                 }}
                             >
                                 Join our thriving community of AI enthusiasts, developers, and innovators.
                             </motion.span>
                             <br />
                             <motion.span
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ 
+                                className="inline-block"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{
                                     delay: 1.8,
                                     duration: 0.5,
                                     ease: "easeOut"
+                                }}
+                                whileHover={{
+                                    scale: 1.05,
+                                    transition: { duration: 0.2 }
                                 }}
                             >
                                 Together, we&apos;re shaping the future of AI in India.
