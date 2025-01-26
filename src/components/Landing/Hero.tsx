@@ -40,65 +40,102 @@ const Hero = () => {
               transition={{ duration: 1, ease: "easeOut" }}
             >
               <div className="relative z-10 flex flex-col items-center gap-4 mb-3">
-                <div className="flex flex-wrap justify-center">
-                  {"INDIA'S LARGEST".split("").map((letter, index) => (
-                    <motion.span
-                      key={index}
-                      className="inline-block bg-clip-text text-transparent bg-[url('/images/hero.webp')] bg-cover bg-center"
-                      style={{
-                        fontSize: "5rem",
-                        lineHeight: "1.1",
-                        fontWeight: "800",
-                        backgroundPosition: `${-50 * index}px center`,
-                      }}
-                      initial={{ y: -50, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{
-                        delay: index * 0.1,
-                        duration: 0.5,
-                        ease: "easeOut",
-                      }}
-                      whileHover={{
-                        scale: 1.2,
-                        transition: { duration: 0.2 },
-                      }}
-                    >
-                      {letter === " " ? "\u00A0" : letter}
-                    </motion.span>
-                  ))}
+                {/* Mobile-only layout */}
+                <div className="md:hidden flex flex-col items-center">
+                  {"INDIA'S LARGEST AI COMMUNITY"
+                    .split(" ")
+                    .map((word, wordIndex) => (
+                      <div key={wordIndex} className="flex">
+                        {word.split("").map((letter, letterIndex) => (
+                          <motion.span
+                            key={letterIndex}
+                            className="inline-block bg-clip-text text-transparent bg-[url('/images/hero.webp')] bg-cover bg-center text-[3rem] leading-tight font-extrabold"
+                            style={{
+                              backgroundPosition: `${
+                                -50 * (letterIndex + wordIndex * 7)
+                              }px center`,
+                            }}
+                            initial={{
+                              y: wordIndex < 2 ? -50 : 50,
+                              opacity: 0,
+                            }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{
+                              delay:
+                                (letterIndex + wordIndex * 7) * 0.1 +
+                                (wordIndex >= 2 ? 0.5 : 0),
+                              duration: 0.5,
+                              ease: "easeOut",
+                            }}
+                            whileHover={{
+                              scale: 1.2,
+                              rotateY: wordIndex >= 2 ? 180 : 0,
+                              transition: { duration: 0.3 },
+                            }}
+                          >
+                            {letter}
+                          </motion.span>
+                        ))}
+                      </div>
+                    ))}
                 </div>
-                <div className="flex flex-wrap justify-center">
-                  {"AI COMMUNITY".split("").map((letter, index) => (
-                    <motion.span
-                      key={index}
-                      className="inline-block bg-clip-text text-transparent bg-[url('/images/hero.webp')] bg-cover bg-center"
-                      style={{
-                        fontSize: "5rem",
-                        lineHeight: "1.1",
-                        fontWeight: "800",
-                        backgroundPosition: `${-50 * index}px center`,
-                      }}
-                      initial={{ y: 50, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{
-                        delay: index * 0.1 + 0.5,
-                        duration: 0.5,
-                        ease: "easeOut",
-                      }}
-                      whileHover={{
-                        scale: 1.2,
-                        rotateY: 180,
-                        transition: { duration: 0.3 },
-                      }}
-                    >
-                      {letter === " " ? "\u00A0" : letter}
-                    </motion.span>
-                  ))}
+
+                {/* Original desktop layout */}
+                <div className="hidden md:block">
+                  <div className="flex flex-wrap justify-center">
+                    {"INDIA'S LARGEST".split("").map((letter, index) => (
+                      <motion.span
+                        key={index}
+                        className="inline-block bg-clip-text text-transparent bg-[url('/images/hero.webp')] bg-cover bg-center text-[5rem] leading-tight font-extrabold"
+                        style={{
+                          backgroundPosition: `${-50 * index}px center`,
+                        }}
+                        initial={{ y: -50, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{
+                          delay: index * 0.1,
+                          duration: 0.5,
+                          ease: "easeOut",
+                        }}
+                        whileHover={{
+                          scale: 1.2,
+                          transition: { duration: 0.2 },
+                        }}
+                      >
+                        {letter === ' ' ? '\u00A0' : letter}
+                      </motion.span>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap justify-center">
+                    {"AI COMMUNITY".split("").map((letter, index) => (
+                      <motion.span
+                        key={index}
+                        className="inline-block bg-clip-text text-transparent bg-[url('/images/hero.webp')] bg-cover bg-center text-[5rem] leading-tight font-extrabold"
+                        style={{
+                          backgroundPosition: `${-50 * (index + 2)}px center`,
+                        }}
+                        initial={{ y: 50, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{
+                          delay: (index + 2) * 0.1 + 0.5,
+                          duration: 0.5,
+                          ease: "easeOut",
+                        }}
+                        whileHover={{
+                          scale: 1.2,
+                          rotateY: 180,
+                          transition: { duration: 0.3 },
+                        }}
+                      >
+                        {letter === ' ' ? '\u00A0' : letter}
+                      </motion.span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </motion.h1>
             <motion.p
-              className="text-xl md:text-2xl mb-8 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-clip-text text-transparent font-medium"
+              className="text-xl md:text-2xl mb-8 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-clip-text font-medium"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -157,22 +194,15 @@ const Hero = () => {
               }}
               aria-label="Join the Community"
             >
-              {/* Background Gradient */}
               <div className="absolute inset-0 w-full h-full transition-all duration-300 bg-gradient-to-r from-teal-700 via-teal-500 to-teal-700 group-hover:scale-110 group-hover:rotate-2"></div>
-
-              {/* Text */}
               <span className="relative text-white text-lg font-semibold tracking-wide group-hover:opacity-0 transition-opacity duration-300">
                 Join the Community
               </span>
-
-              {/* Logo */}
               <img
                 src="/images/logo.png"
                 alt="Logo"
                 className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 object-contain p-4"
               />
-
-              {/* Optional Gradient Overlays */}
               <div className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-teal-700 via-teal-500 to-teal-700 blur-sm"></div>
               </div>
