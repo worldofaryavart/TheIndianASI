@@ -130,10 +130,31 @@ const Hero = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 1.8 }}
                         >
-                            <button className="group relative px-8 py-4 rounded-full overflow-hidden">
-                                <div className="absolute inset-0 w-full h-full transition-all duration-300 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 group-hover:scale-110"></div>
-                                <span className="relative text-white text-lg font-semibold">Join the Community</span>
-                            </button>
+                            <motion.button
+                                className="group relative px-8 py-4 rounded-full overflow-hidden"
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 2, duration: 0.5, ease: "easeOut" }}
+                                whileHover={{
+                                    scale: 1.05,
+                                    transition: { duration: 0.2 }
+                                }}
+                                whileTap={{
+                                    scale: 0.95,
+                                    transition: { duration: 0.1 }
+                                }}
+                            >
+                                <div className="absolute inset-0 w-full h-full transition-all duration-300 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 group-hover:scale-110 group-hover:rotate-2"></div>
+                                <span className="relative text-white text-lg font-semibold tracking-wide">
+                                    Join the Community
+                                </span>
+                                <div className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-purple-700 via-indigo-700 to-purple-700 blur-sm"></div>
+                                </div>
+                                <div className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-purple-500 via-indigo-500 to-purple-500 blur-md"></div>
+                                </div>
+                            </motion.button>
                         </motion.div>
                     </motion.div>
                 </div>
