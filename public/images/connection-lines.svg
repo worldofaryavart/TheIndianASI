@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Animated connection paths -->
+  <path class="connector" d="M120,80 Q200,50 280,120" fill="none" stroke="#4F46E5" stroke-width="2"/>
+  <path class="connector" d="M400,200 Q450,150 500,250" fill="none" stroke="#6366F1" stroke-width="2"/>
+  <path class="connector" d="M600,300 Q650,200 700,350" fill="none" stroke="#818CF8" stroke-width="2"/>
+  
+  <!-- Pulse nodes -->
+  <circle class="pulse-node" cx="120" cy="80" r="3" fill="#4F46E5"/>
+  <circle class="pulse-node" cx="280" cy="120" r="3" fill="#6366F1"/>
+  <circle class="pulse-node" cx="500" cy="250" r="3" fill="#818CF8"/>
+</svg>
