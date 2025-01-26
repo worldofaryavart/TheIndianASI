@@ -1,5 +1,6 @@
 import CTA from "@/components/Landing/Cta";
 import Feature from "@/components/Landing/Feature";
+import Footer from "@/components/Landing/Footer";
 import Hero from "@/components/Landing/Hero";
 import Mision from "@/components/Landing/Mision";
 import Navbar from "@/components/Landing/Navbar";
@@ -13,6 +14,7 @@ export default function Home() {
         <Mision />
         <Feature />
         <CTA />
+      <Footer />
       </div>
     </main>
   );
