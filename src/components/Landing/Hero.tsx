@@ -46,7 +46,7 @@ const Hero = () => {
                       key={index}
                       className="inline-block bg-clip-text text-transparent bg-[url('/images/hero.webp')] bg-cover bg-center"
                       style={{
-                        fontSize: "6rem",
+                        fontSize: "5rem",
                         lineHeight: "1.1",
                         fontWeight: "800",
                         backgroundPosition: `${-50 * index}px center`,
@@ -73,7 +73,7 @@ const Hero = () => {
                       key={index}
                       className="inline-block bg-clip-text text-transparent bg-[url('/images/hero.webp')] bg-cover bg-center"
                       style={{
-                        fontSize: "6rem",
+                        fontSize: "5rem",
                         lineHeight: "1.1",
                         fontWeight: "800",
                         backgroundPosition: `${-50 * index}px center`,
