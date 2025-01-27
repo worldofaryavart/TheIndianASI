@@ -43,17 +43,25 @@ export default function JoinPage() {
         {/* Signup Section */}
         <section className="max-w-2xl mx-auto">
           <div className="bg-gray-800 p-8 rounded-xl shadow-lg">
-            <h2 className="text-2xl font-bold text-white mb-6">Get Started</h2>
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">
+              Get Started
+            </h2>
 
             {/* OAuth Buttons */}
-            <div className="flex gap-4 mb-8">
-              <Button variant="outline" className="w-full gap-2">
-                <FaGoogle className="w-5 h-5" />
-                Continue with Google
+            <div className="flex flex-col gap-4 mb-8">
+              <Button
+                variant="outline"
+                className="w-full flex items-center justify-center gap-3 py-3 text-white hover:bg-gray-700 transition-all duration-300 border-gray-600"
+              >
+                <FaGoogle className="w-5 h-5 text-gray-300" />
+                <span className="text-base font-medium">Continue with Google</span>
               </Button>
-              <Button variant="outline" className="w-full gap-2">
-                <FaGithub className="w-5 h-5" />
-                Continue with GitHub
+              <Button
+                variant="outline"
+                className="w-full flex items-center justify-center gap-3 py-3 text-white hover:bg-gray-700 transition-all duration-300 border-gray-600"
+              >
+                <FaGithub className="w-5 h-5 text-gray-300" />
+                <span className="text-base font-medium">Continue with GitHub</span>
               </Button>
             </div>
 
@@ -69,50 +77,61 @@ export default function JoinPage() {
             </div>
 
             {/* Signup Form */}
-            <form className="space-y-6">
-              <div>
-                <Label htmlFor="name" className="text-white">
+            <form className="space-y-8">
+              {/* Name Field */}
+              <div className="space-y-2">
+                <Label htmlFor="name" className="text-white text-sm font-medium">
                   Name
                 </Label>
                 <Input
                   id="name"
                   type="text"
-                  className="mt-1 bg-gray-700 border-gray-600 text-white"
+                  className="w-full mt-1 bg-gray-700 border-gray-600 text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 rounded-lg px-4 py-3"
+                  placeholder="Enter your name"
                 />
               </div>
 
-              <div>
-                <Label htmlFor="email" className="text-white">
+              {/* Email Field */}
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-white text-sm font-medium">
                   Email
                 </Label>
                 <Input
                   id="email"
                   type="email"
-                  className="mt-1 bg-gray-700 border-gray-600 text-white"
+                  className="w-full mt-1 bg-gray-700 border-gray-600 text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 rounded-lg px-4 py-3"
+                  placeholder="Enter your email"
                 />
               </div>
 
-              <div>
-                <Label htmlFor="password" className="text-white">
+              {/* Password Field */}
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-white text-sm font-medium">
                   Password
                 </Label>
                 <Input
                   id="password"
                   type="password"
-                  className="mt-1 bg-gray-700 border-gray-600 text-white"
+                  className="w-full mt-1 bg-gray-700 border-gray-600 text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 rounded-lg px-4 py-3"
+                  placeholder="Enter your password"
                 />
               </div>
 
-              <div className="flex items-center space-x-2">
-                <Checkbox id="terms" className="border-gray-600" />
+              {/* Terms and Conditions Checkbox */}
+              <div className="flex items-center space-x-3">
+                <Checkbox
+                  id="terms"
+                  className="border-gray-600 focus:ring-2 focus:ring-blue-500 rounded-md"
+                />
                 <label htmlFor="terms" className="text-sm text-gray-300">
                   I agree to the terms and conditions
                 </label>
               </div>
 
+              {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition-all duration-300 font-medium text-lg"
               >
                 Join Community
               </Button>
@@ -122,11 +141,11 @@ export default function JoinPage() {
 
         {/* Community Preview */}
         <section className="mt-16 text-center">
-          <h3 className="text-white text-xl mb-4">
+          {/* <h3 className="text-white text-xl mb-4">
             Already 10,000+ members collaborating
-          </h3>
+          </h3> */}
           <div className="flex justify-center gap-4 text-gray-400">
-            <span>500+ Projects</span>
+            <span>Projects Contribution</span>
             <span>•</span>
             <span>Daily Discussions</span>
             <span>•</span>
