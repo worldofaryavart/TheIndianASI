@@ -9,7 +9,7 @@ import { FaGoogle, FaGithub } from "react-icons/fa";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Label from "@/components/ui/Label";
-import Checkbox from "@/components/ui/Checkbox";
+// import Checkbox from "@/components/ui/Checkbox";
 import { Dancing_Script } from "next/font/google";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -252,4 +252,3 @@ export default function JoinPage() {
     </main>
   );
 }
-
