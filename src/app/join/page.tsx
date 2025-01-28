@@ -62,10 +62,10 @@ export default function JoinPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!formData.terms) {
-      toast.error("Please accept the terms and conditions");
-      return;
-    }
+    // if (!formData.terms) {
+    //   toast.error("Please accept the terms and conditions");
+    //   return;
+    // }
 
     try {
       setIsLoading(true);
@@ -214,7 +214,7 @@ export default function JoinPage() {
                 />
               </div>
 
-              <div className="flex items-center space-x-3">
+              {/* <div className="flex items-center space-x-3">
                 <Checkbox
                   id="terms"
                   checked={formData.terms}
@@ -224,7 +224,7 @@ export default function JoinPage() {
                 <label htmlFor="terms" className="text-sm text-gray-300">
                   I agree to the terms and conditions
                 </label>
-              </div>
+              </div> */}
 
               <Button
                 type="submit"
