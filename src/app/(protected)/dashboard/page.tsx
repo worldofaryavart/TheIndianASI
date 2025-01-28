@@ -1,7 +1,9 @@
-const Dashboard = () => {
-    return (
-        <h1>Hello welcome to the community</h1>
-    );
-}
+import TopicList from "@/components/Discussion/TopicList";
 
-export default Dashboard;
+export default function DashboardPage() {
+    return (
+      <div>
+        <TopicList />
+      </div>
+    );
+  }
