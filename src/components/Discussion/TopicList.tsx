@@ -9,6 +9,9 @@ type Topic = {
   date: string;
   user_image: string;
   user_name: string;
+  participants: number;
+  likes: number;
+  messages: number;
 };
 
 const topics: Topic[] = [
@@ -18,13 +21,16 @@ const topics: Topic[] = [
     date: "2024-07-15",
     user_image: "/images/user.png",
     user_name: "John Doe",
+    participants: 100, 
+    likes: 50,
+    messages: 300,
   }
 ];
 
 const TopicList = () => {
   const handleTopicClick = (topic: Topic) => {
     console.log("Topic clicked:", topic.title);
-    
+
   };
 
   return (

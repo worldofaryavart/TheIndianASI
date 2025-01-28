@@ -8,6 +8,9 @@ type Topic = {
   date: string;
   user_image: string;
   user_name: string;
+  participants: number;
+  likes: number;
+  messages: number;
 };
 
 type TopicCardProps = {
@@ -17,7 +20,7 @@ type TopicCardProps = {
 
 const TopicCard = ({ topic, onClick }: TopicCardProps) => {
   return (
-    <div 
+    <div
       className="max-w-2xl mx-auto p-6 bg-gray-800 rounded-lg shadow-lg border border-gray-600 cursor-pointer"
       onClick={onClick}
     >
@@ -44,6 +47,20 @@ const TopicCard = ({ topic, onClick }: TopicCardProps) => {
             />
           </div>
           <p className="text-lg font-semibold text-gray-100">{topic.user_name}</p>
+        </div>
+      </div>
+      <div className="flex items-center space-x-4 mt-4">
+        <div className="flex items-center space-x-2">
+          <span className="text-sm text-gray-400">Participants:</span>
+          <span className="text-sm text-gray-100">{topic.participants}</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <span className="text-sm text-gray-400">Likes:</span>
+          <span className="text-sm text-gray-100">{topic.likes}</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <span className="text-sm text-gray-400">Messages:</span>
+          <span className="text-sm text-gray-100">{topic.messages}</span>
         </div>
       </div>
     </div>
