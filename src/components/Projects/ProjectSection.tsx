@@ -24,7 +24,7 @@ const projects: Project[] = [
     title: "LLMForIndia - Open Source AI for Bharat",
     description: "LLMForIndia is a community-driven initiative to build an open-source language model tailored for Indian languages and knowledge. Our goal is to develop AI that understands and represents India's diverse linguistic and cultural heritage.",
     stack: ["LLM", "Python", "Open Source"],
-    link: "https://github.com/worldofaryavart/AI-for-India/blob/main/README.md",
+    link: "https://github.com/worldofaryavart/AI-for-India",
   },
 ];
 

@@ -16,11 +16,11 @@ interface Topic {
   messages: number;
 }
 
-export default function TopicPage({ params }: { params: { slug: string } }) {
+export default function TopicPage() {
   const searchParams = useSearchParams();
   const [topic, setTopic] = useState<Topic | null>(null);
 
-  console.log("params", params);
+  // console.log("params", params);
 
   useEffect(() => {
     const searchParamsArray = Array.from(searchParams.entries());
