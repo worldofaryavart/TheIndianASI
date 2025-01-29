@@ -46,6 +46,24 @@ export default function TopicPage() {
 
   return (
     <>
+      <div className="flex justify-center items-center min-h-screen bg-gray-50">
+        <div className="text-center max-w-2xl p-6">
+          {/* Spinner */}
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900 mb-4 mx-auto"></div>
+
+          {/* Heading */}
+          <h1 className="text-2xl font-semibold text-gray-900 mb-4">
+            Note: This Section is a Work in Progress
+          </h1>
+
+          {/* Description */}
+          <p className="text-gray-600 mb-6">
+            We are developing this section as a full Discussion Forum where you
+            can interact with community members, share insights, and ask
+            questions. You will be able to share research, projects, and ideas.
+          </p>
+        </div>
+      </div>
       <Intro topic={topic} />
       <Messages />
     </>
