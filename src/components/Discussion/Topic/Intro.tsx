@@ -13,7 +13,7 @@ interface Topic {
 
 const Intro = ({topic}: {topic: Topic}) => {
     return (
-        <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="mx-auto px-4 py-8">
           <div className="bg-gray-900 rounded-lg shadow-lg border border-gray-400 overflow-hidden">
             <div className="p-6 border-b border-gray-200">
               <h1 className="text-3xl font-bold text-gray-50 mb-4">{topic.title}</h1>

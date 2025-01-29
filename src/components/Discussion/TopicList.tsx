@@ -56,16 +56,16 @@ const TopicList = () => {
         gutterBottom
         sx={{
           fontWeight: 400,
-          color: "primary.main",
-          textAlign: "center",
+          textAlign: "left",
           mb: 2,
         }}
       >
         Explore Topics
       </Typography>
+      <hr className="border-t border-gray-400 mb-8" />
       <Grid container spacing={2}>
         {topics.map((topic, index) => (
-          <Grid item xs={12} key={index}>
+          <Grid item key={index}>
             <TopicCard topic={topic} onClick={() => handleTopicClick(topic)} />
           </Grid>
         ))}

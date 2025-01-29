@@ -21,7 +21,7 @@ type TopicCardProps = {
 const TopicCard = ({ topic, onClick }: TopicCardProps) => {
   return (
     <div
-      className="max-w-2xl mx-auto p-6 bg-gray-800 rounded-lg shadow-lg border border-gray-600 cursor-pointer"
+      className="mx-auto p-6 bg-gray-800 rounded-lg shadow-lg border border-gray-600 cursor-pointer"
       onClick={onClick}
     >
       <div className="flex items-center space-x-4 mb-4">
