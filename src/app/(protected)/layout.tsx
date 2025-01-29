@@ -1,6 +1,3 @@
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import Header from "@/components/ProtectedComponent/Header";
 import SidebarPanel from "@/components/ProtectedComponent/SidePanel";
 
@@ -9,11 +6,7 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    redirect("/join");
-  }
+  
 
   return (
     <div className="flex flex-col h-screen">
