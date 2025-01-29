@@ -1,8 +1,16 @@
 "use client";
 import { motion } from "framer-motion";
 import NeuralNetwork from "./NeuralNetwork";
+import { useRouter } from "next/navigation";
 
 const Hero = () => {
+
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push('/dashboard');
+  };
+  
   return (
     <section className="relative min-h-screen overflow-hidden">
       <NeuralNetwork className="z-1" />
@@ -193,6 +201,7 @@ const Hero = () => {
                 transition: { duration: 0.1 },
               }}
               aria-label="Join the Community"
+              onClick={handleClick} 
             >
               <div className="absolute inset-0 w-full h-full transition-all duration-300 bg-gradient-to-r from-teal-700 via-teal-500 to-teal-700 group-hover:scale-110 group-hover:rotate-2"></div>
               <span className="relative text-white text-lg font-semibold tracking-wide group-hover:opacity-0 transition-opacity duration-300">

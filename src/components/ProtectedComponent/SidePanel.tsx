@@ -10,10 +10,10 @@ const SidebarPanel: React.FC<SidebarPanelProps> = ({ className }) => {
         <span className="ml-3">Home</span>
       </div>
       <div className="flex items-center p-2 cursor-pointer hover:bg-gray-700 rounded">
-        <span className="ml-3">Explore</span>
+        <span className="ml-3">Projects</span>
       </div>
       <div className="flex items-center p-2 cursor-pointer hover:bg-gray-700 rounded">
-        <span className="ml-3">Subscriptions</span>
+        <span className="ml-3">Explore</span>
       </div>
       <div className="flex items-center p-2 cursor-pointer hover:bg-gray-700 rounded">
         <span className="ml-3">Library</span>

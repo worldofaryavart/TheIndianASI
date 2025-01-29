@@ -23,7 +23,7 @@ const Navbar = () => {
     const navItems = [
         { name: 'About', href: '/about' },
         { name: 'Vision', href: '/vision' },
-        { name: 'Join', href: '/join' },
+        { name: 'Join', href: '/dashboard' },
     ];
 
     return (
