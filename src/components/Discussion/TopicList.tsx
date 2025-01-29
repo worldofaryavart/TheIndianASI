@@ -20,9 +20,9 @@ const topics: Topic[] = [
     title: "Should India also develop their own LLM?",
     description:
       "The debate around developing a Large Language Model (LLM) in India has gained significant traction. Proponents argue that it would enhance national security, foster innovation, and create jobs. However, opponents raise concerns about the potential for misuse and the need for international collaboration. This topic explores the pros and cons of India developing its own LLM.",
-    date: "2024-07-15",
+    date: "2025-01-28",
     user_image: "/images/user.png",
-    user_name: "John Doe",
+    user_name: "Mr India",
     participants: 100,
     likes: 50,
     messages: 300,
