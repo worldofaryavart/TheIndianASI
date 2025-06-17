@@ -8,7 +8,7 @@ const Hero = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push('/dashboard');
+    router.push('/login');
   };
   
   return (
@@ -50,7 +50,7 @@ const Hero = () => {
               <div className="relative z-10 flex flex-col items-center gap-4 mb-3">
                 {/* Mobile-only layout */}
                 <div className="md:hidden flex flex-col items-center">
-                  {"INDIA'S LARGEST AI COMMUNITY"
+                  {"INDIA'S OWN AI COMMUNITY"
                     .split(" ")
                     .map((word, wordIndex) => (
                       <div key={wordIndex} className="flex">
@@ -91,7 +91,7 @@ const Hero = () => {
                 {/* Original desktop layout */}
                 <div className="hidden md:block">
                   <div className="flex flex-wrap justify-center">
-                    {"INDIA'S LARGEST".split("").map((letter, index) => (
+                    {"INDIA'S OWN".split("").map((letter, index) => (
                       <motion.span
                         key={index}
                         className="inline-block bg-clip-text text-transparent bg-[url('/images/hero.webp')] bg-cover bg-center text-[5rem] leading-tight font-extrabold"
@@ -188,7 +188,7 @@ const Hero = () => {
               </motion.span>
             </motion.p>
             <motion.button
-              className="group relative px-8 py-4 rounded-full overflow-hidden"
+              className="group relative px-8 py-4 rounded-full overflow-hidden bg-gradient-to-r from-teal-700 via-teal-500 to-teal-700 hover:from-teal-600 hover:via-teal-400 hover:to-teal-600 transition-all duration-300"
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ delay: 2, duration: 0.5, ease: "easeOut" }}
@@ -203,21 +203,20 @@ const Hero = () => {
               aria-label="Join the Community"
               onClick={handleClick} 
             >
-              <div className="absolute inset-0 w-full h-full transition-all duration-300 bg-gradient-to-r from-teal-700 via-teal-500 to-teal-700 group-hover:scale-110 group-hover:rotate-2"></div>
-              <span className="relative text-white text-lg font-semibold tracking-wide group-hover:opacity-0 transition-opacity duration-300">
+              <span className="relative text-white text-lg font-semibold tracking-wide flex items-center justify-center gap-2">
                 Join the Community
+                <motion.div
+                  className="w-0 h-0 overflow-hidden group-hover:w-6 group-hover:h-6 transition-all duration-300"
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <img
+                    src="/images/logo.png"
+                    alt="Logo"
+                    className="w-full h-full object-contain"
+                  />
+                </motion.div>
               </span>
-              <img
-                src="/images/logo.png"
-                alt="Logo"
-                className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 object-contain p-4"
-              />
-              <div className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-teal-700 via-teal-500 to-teal-700 blur-sm"></div>
-              </div>
-              <div className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-teal-600 via-teal-400 to-teal-600 blur-md"></div>
-              </div>
             </motion.button>
           </motion.div>
         </div>

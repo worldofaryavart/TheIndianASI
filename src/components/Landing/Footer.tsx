@@ -10,7 +10,7 @@ const Footer = () => {
           <Image src="/images/logo.png" alt="Logo" width={48} height={48} className="h-12" />
           <div className="flex space-x-6">
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/aryavartai"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition duration-300"
@@ -18,7 +18,7 @@ const Footer = () => {
               <FaInstagram size={24} />
             </a>
             <a
-              href="https://twitter.com"
+              href="https://x.com/ShivaSa65237301"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition duration-300"
@@ -26,7 +26,7 @@ const Footer = () => {
               <FaTwitter size={24} />
             </a>
             <a
-              href="https://reddit.com"
+              href="https://www.reddit.com/r/TheIndianASI"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition duration-300"
@@ -34,7 +34,7 @@ const Footer = () => {
               <FaReddit size={24} />
             </a>
             <a
-              href="mailto:community@example.com"
+              href="contact@webxro.com"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition duration-300"

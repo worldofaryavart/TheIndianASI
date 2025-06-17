@@ -35,7 +35,7 @@ const NeuralNetwork: React.FC<NeuralNetworkProps> = ({ className }) => {
 
     const initializeNodes = useCallback(() => {
         const networkNodes: Node[] = [];
-        const numNodes = 40;
+        const numNodes = 20;
 
         for (let i = 0; i < numNodes; i++) {
             // Use deterministic values based on index
