@@ -12,7 +12,7 @@ interface Post {
   created_at: string
   user: { name: string | null }
   category: { name: string } | null
-  tags: { name: string }[]
+  tags: { name: string }[] | null // Allow null
   featured_image: string | null
 }
 
@@ -26,10 +26,12 @@ export function PostList({ posts }: PostListProps) {
       {posts.map((post) => (
         <Link
           key={post.id}
-          href={`/protected/blog/${post.id}`}
+          href={`/protected/${post.id}`}
           className="group"
         >
-          <article className="bg-card rounded-lg shadow-md overflow-hidden transition-transform group-hover:scale-[1.02]">              {post.featured_image && (
+          <article className="bg-card rounded-lg shadow-md overflow-hidden transition-transform group-hover:scale-[1.02]">
+            
+            {post.featured_image && (
               <div className="aspect-video w-full relative overflow-hidden">
                 <Image
                   src={post.featured_image}
@@ -44,7 +46,8 @@ export function PostList({ posts }: PostListProps) {
                 {post.category && (
                   <Badge variant="secondary">{post.category.name}</Badge>
                 )}
-                <Badge                  variant={
+                <Badge
+                  variant={
                     post.status === 'PUBLISHED'
                       ? 'default'
                       : post.status === 'DRAFT'
@@ -71,7 +74,8 @@ export function PostList({ posts }: PostListProps) {
                   })}
                 </time>
               </div>
-              {post.tags.length > 0 && (
+              {/* Fixed: Added safety check for tags */}
+              {post.tags && post.tags.length > 0 && (
                 <div className="flex gap-1 mt-3 flex-wrap">
                   {post.tags.map((tag) => (
                     <Badge key={tag.name} variant="outline" className="text-xs">
