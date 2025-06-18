@@ -38,11 +38,14 @@ interface PostTag {
 }
 
 type PageProps = {
-  params: { slug: string }
-  searchParams?: { [key: string]: string | string[] }
+  params: Promise<{ slug: string }>
+  searchParams?: Promise<{ [key: string]: string | string[] }>
 }
 
 export default async function BlogPost({ params }: PageProps) {
+  // Await the params Promise
+  const { slug } = await params
+  
   const supabase = await createClient()
   
   const { data: post, error } = await supabase
@@ -64,7 +67,7 @@ export default async function BlogPost({ params }: PageProps) {
         name
       )
     `)
-    .eq('id', params.slug)
+    .eq('id', slug)
     .single()
 
   if (error || !post) {
