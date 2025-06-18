@@ -15,6 +15,7 @@ export default {
         foreground: "var(--foreground)",
       },
       fontFamily: {
+        sans: ['var(--font-roboto)', ...fontFamily.sans],
         'dancing-script': ['"Dancing Script"', ...fontFamily.sans],
       },
     },
