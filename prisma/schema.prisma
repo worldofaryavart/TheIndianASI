@@ -24,29 +24,39 @@ model Category {
 }
 
 model Tag {
-  id         String   @id @default(uuid())
-  name       String   @unique
-  posts      Post[]
+  id         String          @id @default(uuid())
+  name       String          @unique
+  posts      PostsOnTags[]
+  created_at DateTime        @default(now())
+}
+
+model PostsOnTags {
+  post       Post     @relation(fields: [postId], references: [id])
+  postId     String
+  tag        Tag      @relation(fields: [tagId], references: [id])
+  tagId      String
   created_at DateTime @default(now())
+
+  @@id([postId, tagId])
 }
 
 model Post {
-  id          String     @id @default(uuid())
-  user        User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  id          String        @id @default(uuid())
+  user        User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id     String
   title       String
-  slug        String     @unique
-  content     String     @db.Text
-  excerpt     String?    @db.Text
+  slug        String       @unique
+  content     String       @db.Text
+  excerpt     String?      @db.Text
   featured_image String?
-  status      PostStatus @default(DRAFT)
-  category    Category?  @relation(fields: [category_id], references: [id])
+  status      PostStatus   @default(DRAFT)
+  category    Category?    @relation(fields: [category_id], references: [id])
   category_id String?
-  tags        Tag[]
-  created_at  DateTime   @default(now())
-  updated_at  DateTime   @updatedAt
+  tags        PostsOnTags[]
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @updatedAt
   published_at DateTime?
-  views       Int        @default(0)
+  views       Int          @default(0)
 }
 
 enum PostStatus {
