@@ -37,6 +37,7 @@
     "react-icons": "^5.4.0",
     "tailwind-merge": "^3.3.1",
     "three": "^0.158.0",
+    "uuid": "^11.1.0",
     "zod": "^3.25.67"
   },
   "devDependencies": {
@@ -47,6 +48,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.172.0",
+    "@types/uuid": "^10.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
     "postcss": "^8",

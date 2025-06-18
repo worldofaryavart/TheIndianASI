@@ -13,6 +13,8 @@ import {
   Alert,
   Paper,
 } from '@mui/material';
+import { v4 as uuidv4 } from "uuid";
+
 
 const formSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -32,9 +34,11 @@ export function TagForm() {
       setIsSubmitting(true);
       setError(null);
       setSuccess(false);
-      const supabase = createClient();      const { error: tagError } = await supabase
-        .from('tag')
+      const supabase = createClient();      
+      const { error: tagError } = await supabase
+        .from('Tag')
         .insert({
+          id: uuidv4(),
           name: values.name,
         });
 
