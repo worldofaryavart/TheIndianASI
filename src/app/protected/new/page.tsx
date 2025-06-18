@@ -40,7 +40,6 @@ export default async function NewBlogPost() {
       <BlogPostForm 
         categories={categories || []}
         tags={tags || []}
-        userId={user.id}
       />
     </div>
   )
