@@ -1,3 +1,4 @@
+// src/components/LoginComponent.tsx
 "use client";
 import { signInAction } from "@/app/actions";
 import { FormMessage, Message } from "@/components/form-message";
@@ -5,8 +6,12 @@ import { SubmitButton } from "@/components/submit-button";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-export default function LoginComponent({ searchParams }: { searchParams: { message?: string; type?: string } }) {
-  const message: Message | undefined = searchParams.message 
+export default function LoginComponent({
+  searchParams,
+}: {
+  searchParams: { message?: string; type?: string };
+}) {
+  const message: Message | undefined = searchParams.message
     ? { message: searchParams.message }
     : undefined;
 
