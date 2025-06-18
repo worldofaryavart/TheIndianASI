@@ -101,7 +101,7 @@ export default async function BlogPost({
   return (
     <div className="container mx-auto py-8">
       <Link
-        href="/protected/blog"
+        href="/protected"
         className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8"
       >
         <ArrowLeft size={20} />
