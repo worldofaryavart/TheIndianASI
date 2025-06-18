@@ -9,10 +9,14 @@ import Link from "next/link";
 export default function LoginComponent({
   searchParams,
 }: {
-  searchParams: { message?: string; type?: string };
+  searchParams: { message?: string; success?: string; error?: string };
 }) {
   const message: Message | undefined = searchParams.message
     ? { message: searchParams.message }
+    : searchParams.success
+    ? { success: searchParams.success }
+    : searchParams.error
+    ? { error: searchParams.error }
     : undefined;
 
   return (
