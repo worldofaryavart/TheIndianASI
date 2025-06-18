@@ -15,11 +15,42 @@ model User {
   created_at DateTime @default(now())
 }
 
-model Post {
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  posts       Post[]
+  created_at  DateTime @default(now())
+}
+
+model Tag {
   id         String   @id @default(uuid())
-  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id    String
-  title      String
-  content    String
+  name       String   @unique
+  posts      Post[]
   created_at DateTime @default(now())
+}
+
+model Post {
+  id          String     @id @default(uuid())
+  user        User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id     String
+  title       String
+  slug        String     @unique
+  content     String     @db.Text
+  excerpt     String?    @db.Text
+  featured_image String?
+  status      PostStatus @default(DRAFT)
+  category    Category?  @relation(fields: [category_id], references: [id])
+  category_id String?
+  tags        Tag[]
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  published_at DateTime?
+  views       Int        @default(0)
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
 }
