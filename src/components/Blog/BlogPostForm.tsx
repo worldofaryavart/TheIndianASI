@@ -23,6 +23,8 @@ import {
   Paper,
   Grid
 } from '@mui/material'
+import { v4 as uuidv4 } from "uuid";
+
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false })
 
@@ -48,10 +50,9 @@ interface Tag {
 interface BlogPostFormProps {
   categories: Category[]
   tags: Tag[]
-  userId: string
 }
 
-export function BlogPostForm({ categories, tags, userId }: BlogPostFormProps) {
+export function BlogPostForm({ categories, tags }: BlogPostFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
@@ -84,20 +85,68 @@ export function BlogPostForm({ categories, tags, userId }: BlogPostFormProps) {
       const supabase = createClient()
       
       const slug = generateSlug(values.title)
+      const now = new Date().toISOString()
 
       console.log("values is : ", values);
-        // First, create the post
+      
+      // Get the current user from Supabase Auth
+      const { data: { user }, error: authError } = await supabase.auth.getUser()
+      
+      if (authError || !user) {
+        throw new Error('You must be logged in to create a post.')
+      }
+
+      console.log("Authenticated user:", user.id, user.email);
+
+      // Check if user exists in User table
+      const { data: dbUser, error: userCheckError } = await supabase
+        .from('User')
+        .select('id')
+        .eq('id', user.id)
+        .single()
+
+      if (userCheckError && userCheckError.code !== 'PGRST116') {
+        // PGRST116 is "not found" error, which is expected if user doesn't exist
+        console.error('Error checking user:', userCheckError)
+        throw new Error('Error checking user existence.')
+      }
+
+      // If user doesn't exist in User table, create them
+      if (!dbUser) {
+        console.log("User doesn't exist in User table, creating...");
+        const { error: createUserError } = await supabase
+          .from('User')
+          .insert({
+            id: user.id,
+            email: user.email!,
+            name: user.user_metadata?.full_name || user.user_metadata?.name || user.email!.split('@')[0],
+            created_at: now,
+          })
+        
+        if (createUserError) {
+          console.error('Error creating user:', createUserError)
+          throw new Error('Failed to create user record.')
+        }
+        console.log("User created successfully");
+      } else {
+        console.log("User already exists in User table");
+      }
+
+      // Now create the post
       const { data: post, error: postError } = await supabase
-        .from('posts')
+        .from('Post')
         .insert({
+          id: uuidv4(),
           title: values.title,
           excerpt: values.excerpt || null,
           content: values.content,
           category_id: values.categoryId || null,
-          user_id: userId,
+          user_id: user.id,
           featured_image: values.featuredImage || null,
           status: 'DRAFT',
           slug: slug,
+          created_at: now,
+          updated_at: now,
         })
         .select()
         .single()
@@ -107,28 +156,39 @@ export function BlogPostForm({ categories, tags, userId }: BlogPostFormProps) {
         throw postError
       }
 
+      console.log("Post created successfully:", post);
+
       // Then, handle tag connections if any tags are selected
       if (values.tagIds?.length && post) {
         const tagConnections = values.tagIds.map((tagId) => ({
-          "postId": post.id,
-          "tagId": tagId,
+          postId: post.id,
+          tagId: tagId,
+          created_at: now,
         }))
 
         const { error: tagError } = await supabase
-          .from('posts_on_tags')
+          .from('PostsOnTags')
           .insert(tagConnections)
 
         if (tagError) {
           console.error('Error connecting tags:', tagError)
           // Don't throw here as the post was created successfully
+          // Just log the error for debugging
+        } else {
+          console.log("Tags connected successfully");
         }
       }
 
+      // Success! Navigate to blog page
       router.push('/protected/blog')
       router.refresh()
     } catch (error) {
       console.error('Error creating post:', error)
-      setError('Failed to create post. Please try again.')
+      if (error instanceof Error) {
+        setError(error.message)
+      } else {
+        setError('Failed to create post. Please try again.')
+      }
     } finally {
       setIsSubmitting(false)
     }

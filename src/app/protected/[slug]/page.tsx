@@ -5,14 +5,9 @@ import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import dynamic from 'next/dynamic'
 import { PostStatus } from '@prisma/client'
 import { PostgrestSingleResponse } from '@supabase/supabase-js'
-
-const MDPreview = dynamic(
-  () => import('@uiw/react-md-editor').then((mod) => mod.default.Markdown),
-  { ssr: false }
-)
+import MarkdownPreview from '@/components/MarkdownPreview'
 
 interface Post {
   id: string;
@@ -164,9 +159,7 @@ export default async function BlogPost({
           <p className="text-xl text-muted-foreground mb-8">{postData.excerpt}</p>
         )}
 
-        <div data-color-mode="light" className="prose max-w-none">
-          <MDPreview source={postData.content} />
-        </div>
+        <MarkdownPreview source={postData.content} />
 
         {tags.length > 0 && (
           <div className="flex gap-2 mt-8">
