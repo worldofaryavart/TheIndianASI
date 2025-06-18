@@ -50,9 +50,9 @@ export default async function ProtectedPage() {
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Blog Posts</h1>
-        <Link href="/protected/new">
-          <Button>Create New Post</Button>
-        </Link>
+        <Button component={Link} href="/protected/new">
+          Create New Post
+        </Button>
       </div>
       <PostList posts={postsWithTags || []} />
     </div>
