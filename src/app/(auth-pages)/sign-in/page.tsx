@@ -1,11 +1,15 @@
+// src/app/(auth-pages)/sign-in/page.tsx
+
 import LoginComponent from "@/components/LoginComponent";
 
-export default async function Login(props: { searchParams: { message?: string; type?: string } }) {
-  const searchParams = props.searchParams;
-  
+type PageProps = {
+  searchParams?: { message?: string; type?: string };
+};
+
+export default function Login({ searchParams }: PageProps) {
   return (
     <div className="min-h-screen w-full">
-      <LoginComponent searchParams={searchParams} />
+      <LoginComponent searchParams={searchParams ?? {}} />
     </div>
   );
 }
