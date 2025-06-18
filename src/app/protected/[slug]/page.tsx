@@ -37,11 +37,12 @@ interface PostTag {
   };
 }
 
-export default async function BlogPost({
-  params,
-}: {
+type PageProps = {
   params: { slug: string }
-}) {
+  searchParams?: { [key: string]: string | string[] }
+}
+
+export default async function BlogPost({ params }: PageProps) {
   const supabase = await createClient()
   
   const { data: post, error } = await supabase
