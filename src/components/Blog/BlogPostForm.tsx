@@ -3,9 +3,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, Controller } from 'react-hook-form'
 import { z } from 'zod'
+import axios from 'axios'
 
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { createClient } from '@/app/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 import { 
@@ -21,10 +22,13 @@ import {
   Typography,
   Alert,
   Paper,
-  Grid
+  Grid,
+  IconButton,
+  CircularProgress,
+  Avatar
 } from '@mui/material'
 import { v4 as uuidv4 } from "uuid";
-
+import { Camera, CloudUpload, Delete } from 'lucide-react';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false })
 
@@ -55,9 +59,15 @@ interface BlogPostFormProps {
 export function BlogPostForm({ categories, tags }: BlogPostFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const router = useRouter()
+  const [isUploadingFeatured, setIsUploadingFeatured] = useState(false)
+  const [isUploadingContent, setIsUploadingContent] = useState(false)
+  const [featuredImagePreview, setFeaturedImagePreview] = useState<string>('')
   
-  const { control, handleSubmit, formState: { errors } } = useForm<z.infer<typeof formSchema>>({
+  const router = useRouter()
+  const featuredImageInputRef = useRef<HTMLInputElement>(null)
+  const contentImageInputRef = useRef<HTMLInputElement>(null)
+  
+  const { control, handleSubmit, setValue, watch, formState: { errors } } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
@@ -69,6 +79,9 @@ export function BlogPostForm({ categories, tags }: BlogPostFormProps) {
     },
   })
 
+  const watchedFeaturedImage = watch('featuredImage')
+  const watchedContent = watch('content')
+
   const generateSlug = (title: string): string => {
     return title
       .toLowerCase()
@@ -77,6 +90,107 @@ export function BlogPostForm({ categories, tags }: BlogPostFormProps) {
       .replace(/-+/g, '-')
       .trim()
   }
+
+  const uploadToCloudinary = async (file: File): Promise<string> => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append(
+      "upload_preset",
+      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET ?? "chichore_preset"
+    );
+
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    if (!cloudName) throw new Error("Cloudinary Cloud Name is not set!");
+
+    const res = await axios.post<{
+      secure_url: string;
+      public_id: string;
+      /* …other Cloudinary response props if you need them */
+    }>(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData);
+
+    return res.data.secure_url;
+  };
+
+  const handleFeaturedImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setError('Please select a valid image file');
+      return;
+    }
+
+    // Validate file size (e.g., max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Image size should be less than 5MB');
+      return;
+    }
+
+    try {
+      setIsUploadingFeatured(true);
+      setError(null);
+      
+      const imageUrl = await uploadToCloudinary(file);
+      setValue('featuredImage', imageUrl);
+      setFeaturedImagePreview(imageUrl);
+      
+    } catch (error) {
+      console.error('Error uploading featured image:', error);
+      setError('Failed to upload image. Please try again.');
+    } finally {
+      setIsUploadingFeatured(false);
+      // Reset the input value so the same file can be selected again if needed
+      if (featuredImageInputRef.current) {
+        featuredImageInputRef.current.value = '';
+      }
+    }
+  };
+
+  const handleContentImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setError('Please select a valid image file');
+      return;
+    }
+
+    // Validate file size (e.g., max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Image size should be less than 5MB');
+      return;
+    }
+
+    try {
+      setIsUploadingContent(true);
+      setError(null);
+      
+      const imageUrl = await uploadToCloudinary(file);
+      
+      // Insert the image markdown into the content at cursor position
+      const imageMarkdown = `\n![Uploaded Image](${imageUrl})\n`;
+      const currentContent = watchedContent || '';
+      const newContent = currentContent + imageMarkdown;
+      setValue('content', newContent);
+      
+    } catch (error) {
+      console.error('Error uploading content image:', error);
+      setError('Failed to upload image. Please try again.');
+    } finally {
+      setIsUploadingContent(false);
+      // Reset the input value
+      if (contentImageInputRef.current) {
+        contentImageInputRef.current.value = '';
+      }
+    }
+  };
+
+  const removeFeaturedImage = () => {
+    setValue('featuredImage', '');
+    setFeaturedImagePreview('');
+  };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -180,7 +294,7 @@ export function BlogPostForm({ categories, tags }: BlogPostFormProps) {
       }
 
       // Success! Navigate to blog page
-      router.push('/protected/blog')
+      router.push('/protected')
       router.refresh()
     } catch (error) {
       console.error('Error creating post:', error)
@@ -257,6 +371,79 @@ export function BlogPostForm({ categories, tags }: BlogPostFormProps) {
             />
           </Grid>
 
+          {/* Featured Image Field */}
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <FormLabel sx={{ mb: 2 }}>Featured Image</FormLabel>
+              
+              {/* Featured Image Preview */}
+              {(watchedFeaturedImage || featuredImagePreview) && (
+                <Box sx={{ mb: 2, position: 'relative', display: 'inline-block' }}>
+                  <Avatar
+                    src={watchedFeaturedImage || featuredImagePreview}
+                    alt="Featured Image Preview"
+                    variant="rounded"
+                    sx={{ width: 200, height: 120 }}
+                  />
+                  <IconButton
+                    onClick={removeFeaturedImage}
+                    sx={{
+                      position: 'absolute',
+                      top: -8,
+                      right: -8,
+                      bgcolor: 'error.main',
+                      color: 'white',
+                      '&:hover': { bgcolor: 'error.dark' }
+                    }}
+                    size="small"
+                  >
+                    <Delete fontSize="small" />
+                  </IconButton>
+                </Box>
+              )}
+
+              <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                {/* Featured Image Upload Button */}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFeaturedImageUpload}
+                  style={{ display: 'none' }}
+                  ref={featuredImageInputRef}
+                />
+                <Button
+                  variant="outlined"
+                  startIcon={isUploadingFeatured ? <CircularProgress size={20} /> : <Camera />}
+                  onClick={() => featuredImageInputRef.current?.click()}
+                  disabled={isUploadingFeatured}
+                >
+                  {isUploadingFeatured ? 'Uploading...' : 'Upload Featured Image'}
+                </Button>
+
+                {/* Or URL Input */}
+                <Typography variant="body2" sx={{ mx: 1 }}>or</Typography>
+                
+                <Controller
+                  name="featuredImage"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label="Image URL"
+                      placeholder="Enter image URL"
+                      size="small"
+                      sx={{ flexGrow: 1 }}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setFeaturedImagePreview(e.target.value);
+                      }}
+                    />
+                  )}
+                />
+              </Box>
+            </FormControl>
+          </Grid>
+
           {/* Content Field */}
           <Grid item xs={12}>
             <Controller
@@ -267,6 +454,30 @@ export function BlogPostForm({ categories, tags }: BlogPostFormProps) {
                   <FormLabel component="legend" sx={{ mb: 1 }}>
                     Content *
                   </FormLabel>
+                  
+                  {/* Content Image Upload Button */}
+                  <Box sx={{ mb: 2 }}>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleContentImageUpload}
+                      style={{ display: 'none' }}
+                      ref={contentImageInputRef}
+                    />
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      startIcon={isUploadingContent ? <CircularProgress size={16} /> : <CloudUpload />}
+                      onClick={() => contentImageInputRef.current?.click()}
+                      disabled={isUploadingContent}
+                    >
+                      {isUploadingContent ? 'Uploading...' : 'Add Image to Content'}
+                    </Button>
+                    <Typography variant="caption" sx={{ ml: 2, color: 'text.secondary' }}>
+                      Upload images to insert into your blog content
+                    </Typography>
+                  </Box>
+
                   <Box data-color-mode="light">
                     <MDEditor
                       value={field.value}
@@ -281,24 +492,6 @@ export function BlogPostForm({ categories, tags }: BlogPostFormProps) {
                     </Typography>
                   )}
                 </FormControl>
-              )}
-            />
-          </Grid>
-
-          {/* Featured Image Field */}
-          <Grid item xs={12}>
-            <Controller
-              name="featuredImage"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Featured Image URL"
-                  fullWidth
-                  error={!!errors.featuredImage}
-                  helperText={errors.featuredImage?.message}
-                  placeholder="Enter the URL of your featured image"
-                />
               )}
             />
           </Grid>
@@ -380,7 +573,7 @@ export function BlogPostForm({ categories, tags }: BlogPostFormProps) {
               <Button
                 type="submit"
                 variant="contained"
-                disabled={isSubmitting}
+                disabled={isSubmitting || isUploadingFeatured || isUploadingContent}
                 size="large"
               >
                 {isSubmitting ? 'Creating...' : 'Create Post'}
