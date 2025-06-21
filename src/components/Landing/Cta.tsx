@@ -1,4 +1,13 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
 const CTA = () => {
+  const router = useRouter();
+  
+    const handleClick = () => {
+      router.push('/sign-in');
+    };
   return (
     <section className="relative bg-gradient-to-r from-slate-200 to-teal-100 text-white py-24 overflow-hidden">
       <div className="absolute inset-0 bg-[url('/images/cloud-pattern.png')] bg-cover bg-center opacity-20"></div>
@@ -10,7 +19,7 @@ const CTA = () => {
         <p className="text-3xl mb-12 text-slate-700">
           Be part of the community that&apos;s shaping the future of AI in India
         </p>
-        <button className="bg-teal-600 text-white px-10 py-4 rounded-full font-semibold hover:bg-teal-700 transition-all duration-300 transform hover:scale-105">
+        <button onClick={handleClick} className="bg-teal-600 text-white px-10 py-4 rounded-full font-semibold hover:bg-teal-700 transition-all duration-300 transform hover:scale-105">
           Get Started Now
         </button>
       </div>

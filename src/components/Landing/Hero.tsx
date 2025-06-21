@@ -8,7 +8,7 @@ const Hero = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push('/sign-up');
+    router.push('/sign-in');
   };
   
   return (
