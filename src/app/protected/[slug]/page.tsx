@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { PostStatus } from '@prisma/client'
 import { PostgrestSingleResponse } from '@supabase/supabase-js'
-import MarkdownPreview from '@/components/MarkdownPreview'
+import MarkdownPreview from '@/components/CustomMarkdown'
 
 interface Post {
   id: string;
