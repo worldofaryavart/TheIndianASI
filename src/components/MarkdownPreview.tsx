@@ -13,7 +13,7 @@ interface MarkdownPreviewProps {
 
 export default function MarkdownPreview({ source }: MarkdownPreviewProps) {
   return (
-    <div data-color-mode="light" className="prose max-w-none">
+    <div data-color-mode="dark" className="prose max-w-none">
       <MDPreview source={source} />
     </div>
   )
