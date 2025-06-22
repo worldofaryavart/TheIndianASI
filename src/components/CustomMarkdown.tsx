@@ -63,6 +63,9 @@ export default function MarkdownPreview({ source }: MarkdownPreviewProps) {
       let codeContent = ''
       let listItems: string[] = []
       let inList = false
+      let tableRows: string[][] = []
+      let inTable = false
+      let tableHeaders: string[] = []
       let key = 0
 
       const flushElement = () => {
@@ -88,17 +91,56 @@ export default function MarkdownPreview({ source }: MarkdownPreviewProps) {
         }
       }
 
-      for (const line of lines) {
+      const flushTable = () => {
+        if (tableRows.length > 0) {
+          elements.push(
+            <div key={key++} className="my-6 overflow-x-auto">
+              <table className="min-w-full border border-slate-700/50 rounded-lg overflow-hidden">
+                {tableHeaders.length > 0 && (
+                  <thead className="bg-slate-800/50">
+                    <tr>
+                      {tableHeaders.map((header, index) => (
+                        <th key={index} className="px-4 py-3 text-left text-sm font-semibold text-white border-b border-slate-700/50">
+                          {parseInlineMarkdown(header.trim())}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                )}
+                <tbody className="bg-slate-900/20">
+                  {tableRows.map((row, rowIndex) => (
+                    <tr key={rowIndex} className="border-b border-slate-700/30 hover:bg-slate-800/20">
+                      {row.map((cell, cellIndex) => (
+                        <td key={cellIndex} className="px-4 py-3 text-sm text-slate-300">
+                          {parseInlineMarkdown(cell.trim())}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )
+          tableRows = []
+          tableHeaders = []
+          inTable = false
+        }
+      }
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i]
+
         // Handle code blocks
         if (line.startsWith('```')) {
           if (inCodeBlock) {
-            elements.push(<CodeBlock key={key++} code={codeContent} language={codeLanguage} />)
+            elements.push(<CodeBlock key={key++} code={codeContent.trim()} language={codeLanguage} />)
             codeContent = ''
             codeLanguage = ''
             inCodeBlock = false
           } else {
             flushElement()
             flushList()
+            flushTable()
             inCodeBlock = true
             codeLanguage = line.slice(3).trim()
           }
@@ -110,19 +152,50 @@ export default function MarkdownPreview({ source }: MarkdownPreviewProps) {
           continue
         }
 
+        // Handle tables
+        if (line.includes('|') && line.trim().startsWith('|') && line.trim().endsWith('|')) {
+          flushElement()
+          flushList()
+          
+          const cells = line.split('|').slice(1, -1) // Remove empty first and last elements
+          
+          // Check if next line is a separator (table header indicator)
+          const nextLine = lines[i + 1]
+          const isHeaderSeparator = nextLine && nextLine.includes('|') && nextLine.includes('-')
+          
+          if (!inTable) {
+            inTable = true
+            if (isHeaderSeparator) {
+              tableHeaders = cells
+              i++ // Skip the separator line
+              continue
+            }
+          }
+          
+          if (!isHeaderSeparator) {
+            tableRows.push(cells)
+          }
+          continue
+        } else if (inTable) {
+          flushTable()
+        }
+
         // Handle list items
         if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
           flushElement()
+          flushTable()
           if (!inList) inList = true
           listItems.push(line.trim().slice(2))
           continue
-        } else if (inList) {
+        } else if (inList && !line.trim().startsWith('- ') && !line.trim().startsWith('* ') && line.trim() !== '') {
           flushList()
         }
 
         // Handle headings
         if (line.startsWith('#')) {
           flushElement()
+          flushList()
+          flushTable()
           const level = line.match(/^#+/)?.[0].length || 1
           const text = line.replace(/^#+\s*/, '')
           elementType = `h${level}` 
@@ -131,17 +204,102 @@ export default function MarkdownPreview({ source }: MarkdownPreviewProps) {
           continue
         }
 
-        // Handle blockquotes
-        if (line.startsWith('>')) {
+        // Handle blockquotes and HTML comments (author quotes)
+        if (line.startsWith('>') || line.trim().startsWith('<!--')) {
           flushElement()
-          const text = line.replace(/^>\s*/, '')
+          flushList()
+          flushTable()
+          
+          let quoteText = ''
+          let authorText = ''
+          let quoteNumber = ''
+          
+          if (line.startsWith('>')) {
+            quoteText = line.replace(/^>\s*/, '')
+            
+            // Check if the quote starts with a number (like "99")
+            const numberMatch = quoteText.match(/^(\d+)\s*(.*)/)
+            if (numberMatch) {
+              quoteNumber = numberMatch[1]
+              quoteText = numberMatch[2]
+            }
+          } else if (line.trim().startsWith('<!--') && line.trim().endsWith('-->')) {
+            // Handle author attribution in HTML comment
+            authorText = line.replace(/<!--\s*—?\s*/, '').replace(/\s*-->/, '')
+          }
+          
+          // Collect multi-line quote content
+          let j = i + 1
+          while (j < lines.length) {
+            const nextLine = lines[j]
+            
+            // Check for author attribution
+            if (nextLine.trim().startsWith('<!--') && nextLine.trim().endsWith('-->')) {
+              authorText = nextLine.replace(/<!--\s*—?\s*/, '').replace(/\s*-->/, '')
+              i = j // Skip to this line
+              break
+            }
+            // Check for continuation of quote or end marker
+            else if (nextLine.startsWith('>')) {
+              quoteText += ' ' + nextLine.replace(/^>\s*/, '')
+              i = j
+            }
+            // Check for arrow end marker (-->)
+            else if (nextLine.trim() === '-->' || nextLine.trim().startsWith('-->')) {
+              i = j // Skip to this line
+              break
+            }
+            // Check for bullet points within quote
+            else if (nextLine.trim().startsWith('•') || nextLine.trim().startsWith('*') || nextLine.trim().startsWith('-')) {
+              quoteText += '\n' + nextLine.trim()
+              i = j
+            }
+            // Empty line or other content - end of quote
+            else {
+              break
+            }
+            j++
+          }
+          
           elements.push(
             <blockquote key={key++} className="border-l-4 border-slate-600 pl-6 my-6 bg-slate-800/20 py-4 rounded-r-lg">
               <div className="flex items-start gap-3">
                 <Quote size={16} className="text-slate-500 mt-1 flex-shrink-0" />
-                <p className="text-slate-300 italic leading-relaxed">
-                  {parseInlineMarkdown(text)}
-                </p>
+                <div className="flex-1">
+                  {quoteNumber && (
+                    <div className="text-6xl font-black text-slate-600/30 leading-none mb-2">
+                      {quoteNumber}
+                    </div>
+                  )}
+                  {quoteText && (
+                    <div className="text-slate-300 leading-relaxed">
+                      {quoteText.includes('\n') ? (
+                        <div className="space-y-2">
+                          {quoteText.split('\n').map((line, idx) => {
+                            if (line.trim().startsWith('•') || line.trim().startsWith('*') || line.trim().startsWith('-')) {
+                              return (
+                                <div key={idx} className="flex items-start gap-2">
+                                  <span className="text-slate-500 mt-1">•</span>
+                                  <span>{parseInlineMarkdown(line.replace(/^[•*-]\s*/, ''))}</span>
+                                </div>
+                              )
+                            }
+                            return line.trim() ? (
+                              <p key={idx}>{parseInlineMarkdown(line)}</p>
+                            ) : null
+                          })}
+                        </div>
+                      ) : (
+                        <p className="italic">{parseInlineMarkdown(quoteText)}</p>
+                      )}
+                    </div>
+                  )}
+                  {authorText && (
+                    <cite className="text-slate-400 text-sm not-italic block mt-3">
+                      — {authorText}
+                    </cite>
+                  )}
+                </div>
               </div>
             </blockquote>
           )
@@ -151,6 +309,8 @@ export default function MarkdownPreview({ source }: MarkdownPreviewProps) {
         // Handle horizontal rules
         if (line.trim() === '---' || line.trim() === '***') {
           flushElement()
+          flushList()
+          flushTable()
           elements.push(
             <div key={key++} className="my-8 flex items-center">
               <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
@@ -174,6 +334,7 @@ export default function MarkdownPreview({ source }: MarkdownPreviewProps) {
       // Flush remaining content
       flushElement()
       flushList()
+      flushTable()
 
       return elements
     }
@@ -206,6 +367,26 @@ export default function MarkdownPreview({ source }: MarkdownPreviewProps) {
       const parts: (string | JSX.Element)[] = []
       let remaining = text
       let partKey = 0
+
+      // Handle images first (they have similar syntax to links but with !)
+      remaining = remaining.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, src) => {
+        const placeholder = `__IMAGE_${partKey}__`
+        parts.push(
+          <div key={partKey++} className="my-6 flex flex-col items-center">
+            <img
+              src={src}
+              alt={alt}
+              className="max-w-full h-auto rounded-lg border border-slate-700/50 shadow-lg"
+            />
+            {alt && (
+              <caption className="mt-2 text-sm text-slate-400 italic text-center">
+                {alt}
+              </caption>
+            )}
+          </div>
+        )
+        return placeholder
+      })
 
       // Handle inline code
       remaining = remaining.replace(/`([^`]+)`/g, (match, code) => {
@@ -260,20 +441,28 @@ export default function MarkdownPreview({ source }: MarkdownPreviewProps) {
 
       // Split by placeholders and reconstruct
       const finalParts: (string | JSX.Element)[] = []
-      const tokens = remaining.split(/(__[A-Z_0-9]+__)/g)
+      const placeholderRegex = /__(?:IMAGE|INLINE_CODE|LINK|BOLD|ITALIC)_\d+__/g
+      const tokens = remaining.split(placeholderRegex)
+      const placeholders = remaining.match(placeholderRegex) || []
 
-      tokens.forEach(token => {
-        if (token.match(/^__[A-Z_0-9]+__$/)) {
-          const matchingPart = parts.find((_, index) => 
-            token === `__${['INLINE_CODE', 'LINK', 'BOLD', 'ITALIC'][Math.floor(index / parts.length * 4)]}_${index}__`
-          )
-          if (matchingPart) {
-            finalParts.push(matchingPart)
-          }
-        } else if (token) {
-          finalParts.push(token)
+      let tokenIndex = 0
+      let placeholderIndex = 0
+
+      while (tokenIndex < tokens.length || placeholderIndex < placeholders.length) {
+        if (tokenIndex < tokens.length && tokens[tokenIndex]) {
+          finalParts.push(tokens[tokenIndex])
         }
-      })
+        tokenIndex++
+
+        if (placeholderIndex < placeholders.length) {
+          const placeholder = placeholders[placeholderIndex]
+          const partIndex = parseInt(placeholder.match(/_(\d+)__$/)?.[1] || '0')
+          if (parts[partIndex]) {
+            finalParts.push(parts[partIndex])
+          }
+          placeholderIndex++
+        }
+      }
 
       return finalParts.length > 0 ? finalParts : [text]
     }
